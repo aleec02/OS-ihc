@@ -104,6 +104,16 @@ por mientras salte de allí. para salir de `mysql>` recuerda escribe
 exit ## y enter claro
 ```
 
+Lo editaremos con neovim en el campo bind-address con 0.0.0.0 para poder aceptar conexiones externas con el comando. Esto servirá para que la conexión con la capa de Aplicación funcione. 
+```zsh
+sudo nvim /etc/mysql/mysql.conf.d/mysqld.cnf
+```
+- haz`/bind`,  `/` es para buscar, tipo ctrol + f. luego enter
+- `:i` para ir al modo de insercion, lo cual te permite escribir texto. con tu tecla de flecha dirigete para cambiar todos esos digitos de `127.0.0.1` a `0.0.0.0`
+- presiona tecla `ESC` para poder entrar al modo normal el cual te permite escribir comandos que empiecen con `:`
+- `:wq' para write and quit, osea w -> guardar, q -> salir 
+
+
 #### comandos/instrucciones en la Capa de Aplicacion
 Instalar en respectiva VM para el stack LAMP
 ```zsh
@@ -115,8 +125,6 @@ systemctl status apache2 ## solo escribe `q` para salir
 ```
 lo bueno de estas paquetes es que a diferencia de algo como python no necesitas llamar las bibliotecas, todo es automatico una vez que instales lo de arriba, en tus archivos .php no vas a tener que importar nada
 
-
-** ir a pagina 50 del google docs de la TB1
 
 en cuanto al codigo que queda hasta la PC2 que es solo mostrar los datos de tablas [GitHub - aleec02/OS\_ElBaul\_PC2](https://github.com/aleec02/OS_ElBaul_PC2) como pueden observar el codigo de cada tabla como `pago.php` por ejemplo es bastante repetitivo pq cada entidad solo muestra tablas. Cada entidad tiene su respectivo .php, y cada php que corresponda a una entidad en bastante repetitivo en su estructura, lo cual nos conviene en entender/memorizar syntaxis, etc. 
 
@@ -158,3 +166,6 @@ user
 mkdir admin css includes user
 ```
 
+Ir al Azure de la VM de Aplicación. Configurar las Reglas de Red para permitir cualquier entrada y test básico de página. 
+Tenemos que observar los resultados que nos da nuestra IP pública, en este caso http://13.64.13.167/ . Para que el servicio de Apache pueda mostrar los resultados con PHP primero tenemos que configurar las Reglas de Networking en el Portal de Azure de la VM de la capa de Aplicación. Para que pueda permitir cualquier entrada de HTTP
+Una vez que hacemos en el campo de “Source”: Any, y aceptamos de campo “Service”: HTTP, podremos ver los resultados de salida que queremos, en este caso primero haremos un simple test inicial asegurandonos que tenemos salida por la dirección pública del servicio http://13.64.13.167/. Para poder corroborar ello nos dirigimos a la carpeta con los siquientes comandos `cd /var/www/html` y luego escribimos en index.html con permision de administrador con `sudo sh -c "echo 'Esto es un test para VM-App-ElBaul' > index.html"`
